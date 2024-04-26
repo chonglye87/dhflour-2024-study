@@ -16,19 +16,22 @@ import {
   TableSelectedAction,
   TableSkeletonAll
 } from "src/components/hyperx/table";
-import {BoardTableRow} from "src/sections/board/index";
+import {BoardTableRow} from "src/sections/board";
 import TableSelectedDeleteDiagram from "src/components/hyperx/table/table-selected-delete-diagram";
 import {useSnackbar} from "src/components/snackbar";
 import BoardTableToolbar from "src/sections/board/board-table-toolbar";
 import {DrawerWrapper} from "src/components/hyperx/drawer";
+import TableRowDeleteDiagram from "src/components/hyperx/table/table-row-delete-diagram";
 import BoardTableAction from "src/components/board/board-table-action";
 import isEqual from "lodash/isEqual";
 import {useBoolean} from "src/hooks/use-boolean";
 import axios from "axios";
-import BoardTableFiltersResult from "../board-table-filters-result";
-import {paths} from "../../../routes/paths";
-import {applyFilter, useBoardManagerContext} from "../board-manage-provider";
-import {BoardCategoryDTO, BoardDTO} from "../../../types/board";
+import BoardTableFiltersResult from "../board/board-table-filters-result";
+import {paths} from "../../routes/paths";
+import {applyFilter, useBoardManagerContext} from "../board/board-manage-provider";
+import BoardNewEditForm from "../board/view/board-new-edit-form";
+import BoardViewBody from "../board/view/board-view-body";
+import {BoardCategoryDTO, BoardDTO} from "../../types/board";
 
 // ----------------------------------------------------------------------
 const BOARD_TYPE = "NOTICE";
@@ -77,6 +80,9 @@ export default function BoardListView({pageName}: Props) {
 
   //= Popup
   const openNew = useBoolean();
+  const openView = useBoolean();
+  const openEdit = useBoolean();
+  const openRowDeleteDiagram = useBoolean();
   const openSelectedDeleteDiagram = useBoolean();
 
   //= DATA
@@ -161,14 +167,31 @@ export default function BoardListView({pageName}: Props) {
 
   const handleCloseDrawer = () => {
     openNew.onFalse();
+    openEdit.onFalse();
+    openView.onFalse();
     setSelectedId(undefined);
   };
 
   const handleOpenNew = () => {
     openNew.onTrue();
+    openEdit.onFalse();
+    openView.onFalse();
     setSelectedId(undefined);
   };
 
+  const handleOpenEdit = (id: number | undefined) => {
+    openNew.onFalse();
+    openEdit.onTrue();
+    openView.onFalse();
+    setSelectedId(id);
+  };
+
+  const handleOpenView = (id: number | undefined) => {
+    openNew.onFalse();
+    openEdit.onFalse();
+    openView.onTrue();
+    setSelectedId(id);
+  };
 
   const handleDeleteRows = async (selectedRows: number[]) => {
     try {
@@ -371,8 +394,8 @@ export default function BoardListView({pageName}: Props) {
                         row={item}
                         selected={table.selected.includes(item.id)}
                         onSelectRow={() => table.onSelectRow(item.id)}
-                        onViewRow={() => {}}
-                        onEditRow={() => {}}
+                        onViewRow={() => handleOpenView(item.id)}
+                        onEditRow={() => handleOpenEdit(item.id)}
                         onRefreshData={() => handleReset()}
                       />
                     ))}
@@ -427,8 +450,59 @@ export default function BoardListView({pageName}: Props) {
         title="새글 작성"
         open={openNew.value}
         onClose={handleCloseDrawer}
-        children={<>?</>}
+        children={
+          <BoardNewEditForm categories={categories} onEnd={() => {
+            handleCloseDrawer();
+            handleReset();
+          }}/>}
       />
+
+      <DrawerWrapper
+        loading={detailDataLoading}
+        title="상세 보기"
+        open={openView.value}
+        onClose={handleCloseDrawer}
+        onEdit={() => handleOpenEdit(selectedId)}
+        onDelete={() => {
+          openRowDeleteDiagram.onTrue();
+        }}
+        children={detailData && <BoardViewBody data={detailData}/>}
+      />
+
+      <DrawerWrapper
+        loading={detailDataLoading}
+        title="수정 하기"
+        open={openEdit.value}
+        onClose={handleCloseDrawer}
+        onView={() => handleOpenView(selectedId)}
+        onDelete={() => {
+          openRowDeleteDiagram.onTrue();
+        }}
+        children={detailData &&
+          <BoardNewEditForm
+            isEdit
+            id={detailData.id}
+            currentData={{
+              title: detailData.title,
+              content: detailData.content,
+              categoryIds: detailData.categories && detailData.categories.map((c) => c.id),
+              top: detailData.top
+            }} categories={categories} onEnd={() => {
+            handleReset();
+            if (selectedId) loadDetailData(selectedId);
+          }}/>
+        }
+      />
+
+      {/* === Delete === */}
+      {selectedId && (
+        <TableRowDeleteDiagram
+          open={openRowDeleteDiagram.value}
+          dataId={selectedId}
+          onClose={() => openRowDeleteDiagram.onFalse()}
+          onDeleteRow={() => handleDeleteRow(selectedId)}
+        />
+      )}
     </>
   );
 }
