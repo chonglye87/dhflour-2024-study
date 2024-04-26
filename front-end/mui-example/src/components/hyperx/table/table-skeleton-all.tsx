@@ -1,5 +1,5 @@
 // @mui
-// 로딩시 전체 로싱의 스켈레톤 컴포넌트
+// 전체 로딩시 스켈레톤 컴포넌트
 import {TableRowProps} from "@mui/material";
 import TableSkeleton from "./table-skeleton";
 

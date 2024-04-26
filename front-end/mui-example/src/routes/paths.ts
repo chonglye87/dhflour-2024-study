@@ -125,14 +125,7 @@ export const paths = {
     samplePage2: `${ROOTS.DASHBOARD}/samplePage2`,
     formEx: `${ROOTS.DASHBOARD}/formEx`,
     board: {
-      root: `${ROOTS.DASHBOARD}/board`,
-      new: `${ROOTS.DASHBOARD}/board/new`,
-      details: (id: string) => `${ROOTS.DASHBOARD}/board/${id}`,
-      edit: (id: string) => `${ROOTS.DASHBOARD}/board/${id}/edit`,
-      demo: {
-        details: `${ROOTS.DASHBOARD}/board/${MOCK_ID}`,
-        edit: `${ROOTS.DASHBOARD}/board/${MOCK_ID}/edit`,
-      },
+      root: `${ROOTS.DASHBOARD}/board`
     },
     product: {
       root: `${ROOTS.DASHBOARD}/product`,

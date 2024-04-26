@@ -20,7 +20,8 @@
 ## 공지사항 게시판 의 경로 설정
 ### 메뉴 추가
 - /src/routes/sections/dashboard.tsx : 페이지 경로 설정
-- /src/layouts/config-navigation.tsx : 대시보드 메뉴 관리
+- /src/layouts/dashboard/config-navigation.tsx : 대시보드 메뉴 관리
+- /src/routes/paths.ts : 페이지 경로 관리
 
 ### 공지사항 메뉴 구성
 - /src/pages/dashboard/board/list.tsx : 공지사항 게시판 시작 Node

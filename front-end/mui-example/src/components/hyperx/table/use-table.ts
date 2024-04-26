@@ -1,6 +1,5 @@
 import {useCallback, useState} from 'react';
 // 데이블의 리액트 훅
-
 import {TableProps} from './types';
 import {PaginationMetadata} from "../../../types/board";
 
@@ -146,31 +145,28 @@ export default function useTable(props?: UseTableProps): ReturnType {
     }, []);
 
     return {
-        dense,
-        order,
-        page,
-        orderBy,
-        rowsPerPage,
-        metadata,
-        //
-        selected,
-        onSelectRow,
-        onSelectAllRows,
-        //
-        onSort,
-        onChangePage,
-        onChangeDense,
-        onResetPage,
-        onChangeRowsPerPage,
-        onUpdatePageDeleteRow,
-        onUpdatePageDeleteRows,
-        //
-        setPage,
-        setDense,
-        setOrder,
-        setOrderBy,
-        setSelected,
-        setRowsPerPage,
-        setPageMetadata
+      dense,                // 테이블 행이 밀집되어 있는지 여부를 나타내는 불린 상태
+      order,                // 현재 정렬 순서 ('asc' 또는 'desc')
+      page,                 // 페이징에서 현재 페이지 인덱스
+      orderBy,              // 정렬에 사용되는 현재 열
+      rowsPerPage,          // 페이지 당 행 수
+      metadata,             // 페이징 메타데이터, 총 항목, 페이지 등을 포함
+      selected,             // 선택된 행 인덱스의 배열
+      onSelectRow,          // 행 선택을 처리하는 함수
+      onSelectAllRows,      // 모든 행을 선택하는 함수
+      onSort,               // 열별로 정렬을 처리하는 함수
+      onChangePage,         // 페이지 변경을 처리하는 함수
+      onChangeDense,        // 행 밀도 토글을 처리하는 함수
+      onResetPage,          // 페이징을 첫 페이지로 리셋하는 함수
+      onChangeRowsPerPage,  // 페이지 당 행 수를 변경하는 함수
+      onUpdatePageDeleteRow,// 행 삭제 시 페이징 업데이트를 처리하는 함수
+      onUpdatePageDeleteRows, // 여러 행 삭제 시 페이징 업데이트를 처리하는 함수
+      setPage,              // 현재 페이지를 설정하는 함수
+      setDense,             // 행 밀도를 설정하는 함수
+      setOrder,             // 정렬 순서를 설정하는 함수
+      setOrderBy,           // 정렬 열을 설정하는 함수
+      setSelected,          // 선택된 행을 설정하는 함수
+      setRowsPerPage,       // 페이지 당 행 수를 설정하는 함수
+      setPageMetadata       // 페이징 메타데이터를 설정하는 함수
     };
 }
