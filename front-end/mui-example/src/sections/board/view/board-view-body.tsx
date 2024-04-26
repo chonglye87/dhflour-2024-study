@@ -4,12 +4,11 @@ import {Theme} from "@mui/material/styles/createTheme";
 import {Box, Card, Divider, Stack, Typography} from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import {useSettingsContext} from "../../../components/settings";
-import {valueByLang} from "../../../utils/i18n.utils";
 import {fDateTime} from "../../../utils/format-time";
 import Iconify from "../../../components/iconify";
 import {useBoolean} from "../../../hooks/use-boolean";
 import Label from "../../../components/label";
-import {BoardDTO, LocalizedDTO } from "src/types/board";
+import {BoardDTO} from "src/types/board";
 import TableViewBodyFooter from "../../../components/hyperx/table/table-view-body-footer";
 
 // ----------------------------------------------------------------------
@@ -22,8 +21,7 @@ interface Props {
 export default function BoardViewBody({data, sx, ...other}: Props) {
     const {systemDefaultLanguage} = useSettingsContext();
 
-    const title = typeof data.title === 'string' ? data.title : valueByLang(data.title as LocalizedDTO, systemDefaultLanguage);
-    const content = typeof data.content === 'string' ? data.content : valueByLang(data.content as LocalizedDTO, systemDefaultLanguage);
+    const {title, content} = data;
     const {categories, createdTime, updatedTime, pageView, top, createdBy, updatedBy} = data;
 
     const properties = useBoolean(true);
@@ -47,7 +45,7 @@ export default function BoardViewBody({data, sx, ...other}: Props) {
                             {/* 카테고리 */}
                             {categories && categories.length > 0 && <Stack direction="row" spacing={1} sx={{mb: 1}}>
                                 {categories.map((category) => <Label variant="soft" color="default">
-                                    {typeof category.name === 'string' ? category.name : valueByLang(category.name as LocalizedDTO, systemDefaultLanguage)}
+                                    {category.name}
                                 </Label>)}
                             </Stack>}
 

@@ -20,7 +20,6 @@ import {BoardTableRow} from "src/sections/board/index";
 import TableSelectedDeleteDiagram from "src/components/hyperx/table/table-selected-delete-diagram";
 import {useSnackbar} from "src/components/snackbar";
 import BoardTableToolbar from "src/sections/board/board-table-toolbar";
-import {transformSortJSON} from "src/components/hyperx/table/use-table";
 import {DrawerWrapper} from "src/components/hyperx/drawer";
 import TableRowDeleteDiagram from "src/components/hyperx/table/table-row-delete-diagram";
 import BoardTableAction from "src/components/board/board-table-action";
@@ -28,7 +27,6 @@ import isEqual from "lodash/isEqual";
 import {useBoolean} from "src/hooks/use-boolean";
 import BoardTableFiltersResult from "../board-table-filters-result";
 import {paths, ROOT_PAGE_NAME} from "../../../routes/paths";
-import {fISO} from "../../../utils/format-time";
 import {applyFilter, useBoardManagerContext} from "../board-manage-provider";
 import BoardNewEditForm from "./board-new-edit-form";
 import BoardViewBody from "./board-view-body";
@@ -144,7 +142,7 @@ export default function BoardListView({pageName}: Props) {
       // }
       const {data} = await axios.get('/mock/category-ex.json');
       if (data && data.items) {
-          setCategories(data.items);
+        setCategories(data.items);
       }
       handleFilters("categories", []);
     } catch (e) {
@@ -205,7 +203,9 @@ export default function BoardListView({pageName}: Props) {
       console.error(e);
       enqueueSnackbar(e.message, {variant: "error"});
     }
-    handleReset().then(() => {console.log('Completed reset')});
+    handleReset().then(() => {
+      console.log('Completed reset')
+    });
     openSelectedDeleteDiagram.onFalse()
   };
 
@@ -216,7 +216,9 @@ export default function BoardListView({pageName}: Props) {
         // enqueueSnackbar(data.message, {variant: "success"});
         enqueueSnackbar('데이터가 삭제되었습니다.', {variant: "success"});
         handleCloseDrawer();
-        handleReset().then(() => {console.log('Completed reset')});
+        handleReset().then(() => {
+          console.log('Completed reset')
+        });
       } catch (e) {
         console.error(e);
         enqueueSnackbar(e.message, {variant: "error"});
@@ -225,12 +227,16 @@ export default function BoardListView({pageName}: Props) {
   };
 
   useEffect(() => {
-    loadCategoryData().then(() => {console.log('loadedCategory Data')});
+    loadCategoryData().then(() => {
+      console.log('loadedCategory Data')
+    });
   }, []);
 
   useEffect(() => {
     updateSearchParams(); // Update search parameters
-    loadData().then(() => {console.log('loaded default Data')});
+    loadData().then(() => {
+      console.log('loaded default Data')
+    });
     navigate(`?${searchParams.toString()}`); // Update the URL with the current search parameters
 
   }, [
@@ -476,20 +482,8 @@ export default function BoardListView({pageName}: Props) {
             isEdit
             id={detailData.id}
             currentData={{
-              title: typeof detailData.title === 'string' ? {
-                ko: detailData.title,
-                en: '',
-                zhCn: '',
-                zhTw: '',
-                ja: ''
-              } : detailData.title,
-              content: typeof detailData.content === 'string' ? {
-                ko: detailData.content,
-                en: '',
-                zhCn: '',
-                zhTw: '',
-                ja: ''
-              } : detailData.content,
+              title: detailData.title,
+              content: detailData.content,
               categoryIds: detailData.categories && detailData.categories.map((c) => c.id),
               top: detailData.top
             }} categories={categories} onEnd={() => {

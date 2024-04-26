@@ -136,10 +136,7 @@ export default function BoardTableToolbar({
                             selected.map((id) => {
                                 const category = getCategory(id);
                                 if (category !== undefined) {
-                                    if (typeof category.name === 'string') {
-                                        return category.name;
-                                    }
-                                    return category.name.ko;
+                                    return category.name;
                                 }
                                 return undefined;
                             }).filter((name) => name !== undefined).join(", ")
@@ -153,7 +150,7 @@ export default function BoardTableToolbar({
                                     size="small"
                                     checked={filters.categories.map((category) => category.id).includes(option.id)}
                                 />
-                                {`${typeof option.name === 'string' ? option.name : option.name.ko}`}
+                                {option.name}
                             </MenuItem>
                         ))}
                     </Select>

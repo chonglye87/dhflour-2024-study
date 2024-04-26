@@ -1,5 +1,5 @@
 // @mui
-import {Checkbox, Divider, IconButton, MenuItem, TableCell, TableRow, Typography} from "@mui/material";
+import {Checkbox, Divider, IconButton, MenuItem, Stack, TableCell, TableRow, Typography} from "@mui/material";
 // utils
 // @types
 // components
@@ -7,8 +7,6 @@ import Label from "src/components/label";
 import Iconify from "src/components/iconify";
 import TableRowDeleteDiagram from "src/components/hyperx/table/table-row-delete-diagram";
 import {useSnackbar} from "src/components/snackbar";
-import LocalizedText from "src/components/hyperx/localized";
-import CategoryNameText from "src/components/hyperx/localized/CategoryNameText";
 import {fDateTime} from "../../../utils/format-time";
 import CustomPopover, {usePopover} from "../../../components/custom-popover";
 import {useBoolean} from "../../../hooks/use-boolean";
@@ -77,12 +75,17 @@ export default function BoardTableRow({
                             openPopover.onClose();
                         }}
                     >
-                        <LocalizedText value={title}/>
+                      {title}
                     </Typography>
                 </TableCell>
 
                 <TableCell align="center">
-                    <CategoryNameText array={categories as any}/>
+
+                  <Stack direction="row" spacing={1}>
+                    {categories && categories.map((category) => <Label variant="soft" color="default" key={category.id}>
+                      {category.name}
+                    </Label>)}
+                  </Stack>
                 </TableCell>
 
                 <TableCell align="center">

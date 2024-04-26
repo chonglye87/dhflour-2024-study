@@ -70,7 +70,7 @@ export default function BoardTableFiltersResult({
             {filters.categories.map((category) => (
               <Chip
                 key={category.id}
-                label={typeof category.name === 'string' ? category.name : category.name.ko}
+                label={category.name}
                 size="small"
                 onDelete={() => handleRemoveService(category.id)}
               />

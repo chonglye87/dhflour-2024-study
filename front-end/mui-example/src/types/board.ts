@@ -17,19 +17,6 @@ export type IBoardCategoryFilters = {
 
 export type IBoardCategoryFilterValue = string | string[] | Date | null;
 
-export interface LocalizedDTO {
-  /** 한국어 */
-  ko: string;
-  /** 영어 */
-  en: string;
-  /** 중국어 간체 */
-  zhCn: string;
-  /** 중국어 번체 */
-  zhTw: string;
-  /** 일본어 */
-  ja: string;
-}
-
 export interface FileModel {
   /** @example "" */
   id?: number;
@@ -56,7 +43,7 @@ export interface BoardCategoryDTO {
   /** icon */
   iconImage?: FileModel;
   /** 카테고리 명 */
-  name: string | LocalizedDTO;
+  name: string;
   /**
    * 등록일
    * @format date-time
@@ -103,9 +90,9 @@ export interface BoardDTO {
    */
   categories: BoardCategoryDTO[];
   /** 제목 */
-  title: string | LocalizedDTO;
+  title: string;
   /** 내용 */
-  content: string | LocalizedDTO;
+  content: string;
   /**
    * 게시판 유형
    * @example ""
@@ -187,9 +174,9 @@ export interface BoardCategoryList {
 
 export interface ReqBoard {
   /** 제목 */
-  title: LocalizedDTO;
+  title: string;
   /** 내용 */
-  content: LocalizedDTO;
+  content: string;
   /** 카테고리 ID */
   categoryIds: number[];
   /** 상단고정 */
