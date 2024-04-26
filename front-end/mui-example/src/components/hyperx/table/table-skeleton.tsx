@@ -1,5 +1,6 @@
 // @mui
-import { TableRow, TableCell, Skeleton, Stack, TableRowProps } from '@mui/material';
+// 로딩시 스켈레톤 컴포넌트
+import {Skeleton, Stack, TableCell, TableRow, TableRowProps} from '@mui/material';
 
 // ----------------------------------------------------------------------
 

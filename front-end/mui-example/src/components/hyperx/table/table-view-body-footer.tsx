@@ -1,3 +1,5 @@
+// 상세 보기시 메타 정보 푸터 컴포넌트
+
 import Box from "@mui/material/Box";
 import {Stack} from "@mui/material";
 import {fDateTime} from "../../../utils/format-time";

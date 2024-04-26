@@ -1,14 +1,7 @@
 // @mui
+// 테이블 헤더 컴포넌트
 import {Theme} from '@mui/material/styles';
-import {
-    Box,
-    SxProps,
-    Checkbox,
-    TableRow,
-    TableCell,
-    TableHead,
-    TableSortLabel,
-} from '@mui/material';
+import {Box, Checkbox, SxProps, TableCell, TableHead, TableRow, TableSortLabel,} from '@mui/material';
 
 // ----------------------------------------------------------------------
 

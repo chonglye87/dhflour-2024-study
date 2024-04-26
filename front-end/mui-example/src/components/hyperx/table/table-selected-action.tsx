@@ -1,5 +1,6 @@
 // @mui
-import { Checkbox, Typography, Stack, StackProps } from '@mui/material';
+// 선택박스 액션 컴포넌트
+import {Checkbox, Stack, StackProps, Typography} from '@mui/material';
 
 // ----------------------------------------------------------------------
 

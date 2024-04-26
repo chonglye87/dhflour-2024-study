@@ -1,6 +1,7 @@
-import { useState, useCallback } from 'react';
-//
-import { TableProps } from './types';
+import {useCallback, useState} from 'react';
+// 데이블의 리액트 훅
+
+import {TableProps} from './types';
 import {PaginationMetadata} from "../../../types/board";
 
 // ----------------------------------------------------------------------

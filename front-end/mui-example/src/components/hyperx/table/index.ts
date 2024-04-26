@@ -10,7 +10,3 @@ export { default as TableHeadCustom } from './table-head-custom';
 export { default as TableSelectedAction } from './table-selected-action';
 export { default as TablePaginationActions } from './table-pagination-actions';
 export { default as TablePaginationCustom } from './table-pagination-custom';
-export { default as TableRowDeleteDiagram } from './table-row-delete-diagram';
-export { default as TableSelectedDeleteDiagram } from './table-selected-delete-diagram';
-export { default as RowOrderInput } from './row-order-input';
-export { default as DialogOrderChange } from './dialog-order-change';

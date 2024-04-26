@@ -1,5 +1,6 @@
 // @mui
-import { TableRow, TableCell } from '@mui/material';
+// 비어있는 테이블 처리 콤퍼넌트
+import {TableCell, TableRow} from '@mui/material';
 
 // ----------------------------------------------------------------------
 

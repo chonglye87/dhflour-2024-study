@@ -1,5 +1,6 @@
 // @mui
-import { Theme, SxProps } from '@mui/material/styles';
+// 데이터가 존재 하지 않을 때 컴포넌트
+import {SxProps, Theme} from '@mui/material/styles';
 import TableRow from '@mui/material/TableRow';
 import TableCell from '@mui/material/TableCell';
 import EmptyContent from "../../empty-content";

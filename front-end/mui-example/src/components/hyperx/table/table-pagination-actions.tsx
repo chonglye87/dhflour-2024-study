@@ -1,9 +1,11 @@
-import { Box, IconButton } from "@mui/material";
+// 페이지네이션의 액션 처리 컴포넌트
+
+import {Box, IconButton} from "@mui/material";
 import LastPageIcon from '@mui/icons-material/LastPage';
 import FirstPageIcon from '@mui/icons-material/FirstPage';
 import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
-import { useTheme } from "@mui/material/styles";
+import {useTheme} from "@mui/material/styles";
 
 interface TablePaginationActionsProps {
   count: number;

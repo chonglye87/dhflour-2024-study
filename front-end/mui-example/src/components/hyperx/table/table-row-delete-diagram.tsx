@@ -1,6 +1,7 @@
 // @mui
+// 삭제 다이어로그 팝업 컴포넌트
 import {Box, Button, StackProps} from "@mui/material";
-import { ConfirmDialog } from "../../custom-dialog";
+import {ConfirmDialog} from "../../custom-dialog";
 
 // ----------------------------------------------------------------------
 

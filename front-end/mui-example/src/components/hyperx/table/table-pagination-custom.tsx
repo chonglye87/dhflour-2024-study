@@ -1,13 +1,7 @@
-// @mui 라이브러리에서 필요한 컴포넌트와 타입들을 가져옵니다.
-import { Theme } from '@mui/material/styles';
-import {
-  Box,
-  Switch,
-  SxProps,
-  TablePagination,
-  FormControlLabel,
-  TablePaginationProps,
-} from '@mui/material';
+// @mui
+// 테이블 페이지 네이션 컴포넌트
+import {Theme} from '@mui/material/styles';
+import {Box, FormControlLabel, Switch, SxProps, TablePagination, TablePaginationProps,} from '@mui/material';
 //
 
 // ----------------------------------------------------------------------
