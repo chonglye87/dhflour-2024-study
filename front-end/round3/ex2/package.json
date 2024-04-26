@@ -1,0 +1,10 @@
+{
+  "scripts": {
+    "build": "tsc",
+    "start1": "tsc && node dist/ex2-1.js",
+    "start2": "tsc && node dist/ex2-2.js",
+    "start3": "tsc && node dist/ex2-3.js",
+    "start4": "tsc && node dist/ex2-4.js",
+    "start5": "tsc && node dist/ex2-5.js"
+  }
+}
