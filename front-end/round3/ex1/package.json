@@ -1,7 +1,9 @@
 {
   "scripts": {
     "build": "tsc",
-    "start": "node dist/main.js",
-    "build-and-run": "npm run build && npm run start"
+    "start": "tsc && node dist/main.js",
+    "build-and-run": "npm run build && npm run start",
+
+    "test": "tsc && node dist/test.js"
   }
 }

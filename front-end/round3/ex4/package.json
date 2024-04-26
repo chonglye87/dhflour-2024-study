@@ -5,6 +5,8 @@
     "start2": "tsc && node dist/ex4-2.js",
     "start3": "tsc && node dist/ex4-3.js",
     "start4": "tsc && node dist/ex4-4.js",
-    "start5": "tsc && node dist/ex4-5.js"
+    "start5": "tsc && node dist/ex4-5.js",
+
+    "test": "tsc && node dist/test.js"
   }
 }
