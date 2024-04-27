@@ -7,11 +7,13 @@ import DashboardLayout from 'src/layouts/dashboard';
 // components
 import {LoadingScreen} from 'src/components/loading-screen';
 import {BoardManagerProvider} from 'src/sections/board/board-manage-provider';
-import BoardListPage from "../../pages/dashboard/board/list";
+import {SampleManageProvider} from "../../sections/reactHookSample/sample-manage-provider";
 
 // ----------------------------------------------------------------------
 
 const IndexPage = lazy(() => import('src/pages/dashboard/one'));
+const BoardListPage = lazy(() => import('src/pages/dashboard/board/list'));
+const ReactHookSample = lazy(() => import('src/pages/dashboard/reactHookSample'));
 const PageTwo = lazy(() => import('src/pages/dashboard/two'));
 const PageThree = lazy(() => import('src/pages/dashboard/three'));
 const PageFour = lazy(() => import('src/pages/dashboard/four'));
@@ -35,6 +37,12 @@ export const dashboardRoutes = [
     children: [
       {element: <IndexPage/>, index: true},
       {path: 'board', element: <BoardManagerProvider><BoardListPage/></BoardManagerProvider>},
+      {
+        path: 'reactHookSample',
+        children: [
+          { element: <SampleManageProvider><ReactHookSample /></SampleManageProvider>, index: true },
+        ],
+      },
       {path: 'two', element: <PageTwo/>},
       {path: 'three', element: <PageThree/>},
       {

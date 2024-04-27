@@ -49,6 +49,11 @@ export function useNavData() {
       {
         subheader: 'management',
         items: [
+          {
+            title: 'React Hook Sample 1',
+            path: paths.dashboard.reactHookSample,
+            icon: ICONS.blank,
+          },
           { title: '공지사항', path: paths.dashboard.board, icon: ICONS.blog },
         ],
       },

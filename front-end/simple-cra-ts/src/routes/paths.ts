@@ -27,6 +27,9 @@ export const paths = {
       root: `${ROOTS.DASHBOARD}/group`,
       five: `${ROOTS.DASHBOARD}/group/five`,
       six: `${ROOTS.DASHBOARD}/group/six`,
-    }
+    },
+    reactHookSample: `${ROOTS.DASHBOARD}/reactHookSample`,
+    samplePage1: `${ROOTS.DASHBOARD}/samplePage1`,
+    samplePage2: `${ROOTS.DASHBOARD}/samplePage2`,
   },
 };

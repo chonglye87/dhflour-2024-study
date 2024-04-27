@@ -1,15 +1,14 @@
+import {Container, Typography, Stack, Button, Divider} from '@mui/material';
 import {Helmet} from 'react-helmet-async';
-import Typography from "@mui/material/Typography";
-import Container from "@mui/material/Container";
-import {useSampleManagerContext} from "../../sections/sample/sample-manage-provider";
-import Iconify from "../../components/iconify";
-import Button from "@mui/material/Button";
-import Stack from '@mui/material/Stack';
-import {Divider} from '@mui/material';
+import Iconify from 'src/components/iconify';
+import Sample1Component2 from 'src/components/reactHookSample/sample1Component2';
+import Sample1Component1 from 'src/components/reactHookSample/sample1Component1';
+import {useSampleManagerContext} from "../../../sections/reactHookSample/sample-manage-provider";
+// sections
 
 // ----------------------------------------------------------------------
+
 export default function ReactHookSample() {
-// useSampleManagerContext 훅을 사용하여 컨텍스트로부터 필요한 값을 가져옵니다.
   const {param1, param2, param3, handleMethod} = useSampleManagerContext();
 
   return (
@@ -36,6 +35,10 @@ export default function ReactHookSample() {
           </Button>
 
           <Divider/>
+
+          <Sample1Component1/>
+          <Sample1Component2/>
+
 
         </Stack>
       </Container>
