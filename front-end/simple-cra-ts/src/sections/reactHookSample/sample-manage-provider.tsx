@@ -29,24 +29,13 @@ const initialState: Props = {
 // createContext를 사용하여 새로운 컨텍스트를 생성합니다. initialState를 기본값으로 사용합니다.
 export const SampleManagerContext = createContext(initialState);
 
-// 컨텍스트를 사용하기 위한 훅입니다. 이 훅은 컨텍스트를 구독하고, 컨텍스트가 제공되지 않을 때 오류를 발생시킵니다.
-export const useSampleManagerContext = () => {
-  const context = useContext(SampleManagerContext);
-
-  if (!context)
-    throw new Error(
-      'useSampleManagerContext must be use inside SampleManagerProvider'
-    );
-
-  return context;
-};
-
 // Provider 컴포넌트의 props 타입을 정의합니다.
 type ManagerProviderProps = {
   children: React.ReactNode;
 };
 
 // Provider 컴포넌트를 정의합니다. 이 컴포넌트는 자식 컴포넌트들에게 컨텍스트를 제공합니다.
+// 반환 유형 : React.FC<{ children: ReactNode }>
 export function SampleManageProvider({children}: ManagerProviderProps) {
   // 스낵바 훅을 사용하여 알림 기능을 구현합니다.
   const {enqueueSnackbar} = useSnackbar();
@@ -103,3 +92,16 @@ export function SampleManageProvider({children}: ManagerProviderProps) {
     </SampleManagerContext.Provider>
   );
 }
+
+// 컨텍스트를 사용하기 위한 훅입니다. 이 훅은 컨텍스트를 구독하고, 컨텍스트가 제공되지 않을 때 오류를 발생시킵니다.
+export const useSampleManagerContext = () => {
+  const context = useContext(SampleManagerContext);
+
+  if (!context)
+    throw new Error(
+      'useSampleManagerContext must be use inside SampleManagerProvider'
+    );
+
+  return context;
+};
+

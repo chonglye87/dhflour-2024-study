@@ -1,6 +1,7 @@
-import { Helmet } from 'react-helmet-async';
+import {Helmet} from 'react-helmet-async';
 // sections
 import OneView from 'src/sections/one/view';
+import {UserProvider} from "../../hooks/use-user";
 
 // ----------------------------------------------------------------------
 
@@ -11,7 +12,9 @@ export default function Page() {
         <title> Dashboard: One</title>
       </Helmet>
 
-      <OneView />
+      <UserProvider>
+        <OneView/>
+      </UserProvider>
     </>
   );
 }
