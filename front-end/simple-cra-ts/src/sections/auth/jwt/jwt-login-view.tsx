@@ -23,6 +23,8 @@ import { useAuthContext } from 'src/auth/hooks';
 // components
 import Iconify from 'src/components/iconify';
 import FormProvider, { RHFTextField } from 'src/components/hook-form';
+import { Divider } from '@mui/material';
+import AuthWithSocial from "../AuthWithSocial";
 
 // ----------------------------------------------------------------------
 
@@ -40,13 +42,20 @@ export default function JwtLoginView() {
   const password = useBoolean();
 
   const LoginSchema = Yup.object().shape({
-    email: Yup.string().required('Email is required').email('Email must be a valid email address'),
-    password: Yup.string().required('Password is required'),
+    email: Yup.string()
+      .required('이메일을 입력해주세요.')
+      .email('올바르지 않은 형식의 이메일 주소입니다.'),
+    password: Yup.string()
+      .required('비밀번호를 입력해주세요.')
+      .matches(
+        /^(?=.*[a-zA-Z])((?=.*\d)|(?=.*\W))(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,50}$/,
+        '8~16자 영문 대 소문자, 숫자, 특수문자를 사용하세요.'
+      ),
   });
 
   const defaultValues = {
-    email: 'demo@minimals.cc',
-    password: 'demo1234',
+    email: '',
+    password: '',
   };
 
   const methods = useForm({
@@ -74,13 +83,13 @@ export default function JwtLoginView() {
 
   const renderHead = (
     <Stack spacing={2} sx={{ mb: 5 }}>
-      <Typography variant="h4">Sign in to Minimal</Typography>
+      <Typography variant="h4">로그인</Typography>
 
       <Stack direction="row" spacing={0.5}>
-        <Typography variant="body2">New user?</Typography>
+        <Typography variant="body2">새로 오셨나요?</Typography>
 
         <Link component={RouterLink} href={paths.auth.jwt.register} variant="subtitle2">
-          Create an account
+         회원가입
         </Link>
       </Stack>
     </Stack>
@@ -90,11 +99,11 @@ export default function JwtLoginView() {
     <Stack spacing={2.5}>
       {!!errorMsg && <Alert severity="error">{errorMsg}</Alert>}
 
-      <RHFTextField name="email" label="Email address" />
+      <RHFTextField name="email" label="이메일" />
 
       <RHFTextField
         name="password"
-        label="Password"
+        label="비밀번호"
         type={password.value ? 'text' : 'password'}
         InputProps={{
           endAdornment: (
@@ -108,7 +117,7 @@ export default function JwtLoginView() {
       />
 
       <Link variant="body2" color="inherit" underline="always" sx={{ alignSelf: 'flex-end' }}>
-        Forgot password?
+        비밀번호를 잊어버렸어요
       </Link>
 
       <LoadingButton
@@ -119,18 +128,23 @@ export default function JwtLoginView() {
         variant="contained"
         loading={isSubmitting}
       >
-        Login
+        로그인
       </LoadingButton>
+
+      <Divider>
+        <Typography variant="body2" sx={{ color: 'text.disabled' }}>
+          간편 로그인
+        </Typography>
+      </Divider>
+
+      {/* 소셜 로그인 */}
+      <AuthWithSocial/>
     </Stack>
   );
 
   return (
     <FormProvider methods={methods} onSubmit={onSubmit}>
       {renderHead}
-
-      <Alert severity="info" sx={{ mb: 3 }}>
-        Use email : <strong>demo@minimals.cc</strong> / password :<strong> demo1234</strong>
-      </Alert>
 
       {renderForm}
     </FormProvider>

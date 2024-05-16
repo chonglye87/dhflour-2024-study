@@ -15,6 +15,10 @@ export const paths = {
       login: `${ROOTS.AUTH}/jwt/login`,
       register: `${ROOTS.AUTH}/jwt/register`,
     },
+    callback:{
+      googleCallback: `${ROOTS.AUTH}/callback/google-callback`,
+      kakaoCallback: `${ROOTS.AUTH}/callback/kakao-callback`,
+    }
   },
   // DASHBOARD
   dashboard: {

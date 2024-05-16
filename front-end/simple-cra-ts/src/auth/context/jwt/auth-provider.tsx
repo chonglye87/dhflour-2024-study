@@ -124,24 +124,55 @@ export function AuthProvider({ children }: Props) {
 
   // LOGIN
   const login = useCallback(async (email: string, password: string) => {
-    const data = {
-      email,
-      password,
-    };
+    try {
+      const data = {
+        email,
+        password,
+      };
 
-    const response = await axios.post(endpoints.auth.login, data);
+      const response = await axios.post(endpoints.auth.login, data);
+      try {
+        // 토큰 담기
+        const {accessToken, refreshToken} = response.data;
+        setSession(accessToken);
 
-    const { accessToken, user } = response.data;
+        // 유저 정보 불러오기
+        // const responseMe = await Swagger.api.userMe();
+        // const user = responseMe.data;
+        // console.log(user, "user");
 
-    setSession(accessToken);
-
-    dispatch({
-      type: Types.LOGIN,
-      payload: {
-        user,
-      },
-    });
+        // dispatch({
+        //   type: Types.LOGIN,
+        //   payload: {
+        //     user,
+        //   },
+        // });
+      } catch (e) {
+        console.error(e, 'LOGIN 1');
+      }
+    } catch (e) {
+      console.error(e, 'LOGIN 2');
+    }
   }, []);
+  // const login = useCallback(async (email: string, password: string) => {
+  //   const data = {
+  //     email,
+  //     password,
+  //   };
+  //
+  //   const response = await axios.post(endpoints.auth.login, data);
+  //
+  //   const { accessToken, user } = response.data;
+  //
+  //   setSession(accessToken);
+  //
+  //   dispatch({
+  //     type: Types.LOGIN,
+  //     payload: {
+  //       user,
+  //     },
+  //   });
+  // }, []);
 
   // REGISTER
   const register = useCallback(
