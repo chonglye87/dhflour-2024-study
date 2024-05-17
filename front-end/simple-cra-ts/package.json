@@ -13,7 +13,8 @@
     "prettier": "prettier --write \"src/**/*.{js,jsx,ts,tsx}\"",
     "clear-all": "rm -rf node_modules .next out dist build",
     "re-start": "rm -rf node_modules .next out dist build && yarn install && yarn start",
-    "re-build": "rm -rf node_modules .next out dist build && yarn install && yarn build"
+    "re-build": "rm -rf node_modules .next out dist build && yarn install && yarn build",
+    "api-build": "npx swagger-typescript-api -p http://localhost:8080/api-docs -o ./src/generated/swagger -n swagger.api.ts --axios"
   },
   "eslintConfig": {
     "extends": [
@@ -45,7 +46,7 @@
     "@mui/system": "^5.15.15",
     "@mui/x-date-pickers": "^7.2.0",
     "autosuggest-highlight": "^3.3.4",
-    "axios": "^1.4.0",
+    "axios": "^1.6.8",
     "date-fns": "^2.30.0",
     "framer-motion": "^10.12.21",
     "highlight.js": "^11.9.0",
@@ -101,6 +102,7 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-unused-imports": "^3.0.0",
     "prettier": "^3.0.0",
+    "swagger-typescript-api": "^13.0.3",
     "typescript": "^4.9.5"
   },
   "overrides": {
