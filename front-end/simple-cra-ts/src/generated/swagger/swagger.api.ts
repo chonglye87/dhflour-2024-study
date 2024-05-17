@@ -35,7 +35,7 @@ export interface BoardEntity {
    * @format int64
    * @example 1
    */
-  id?: number;
+  id: number;
   /** 게시물 제목 */
   title?: string;
   /** 게시물 내용 */
@@ -94,7 +94,7 @@ export interface CategoryEntity {
    * @format int64
    * @example 1
    */
-  id?: number;
+  id: number;
   /** 이름 */
   name?: string;
   /**
@@ -288,16 +288,18 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         query?: string;
         /**
          * Page Size 페이지 크기 (default : 20)
+         * @format int32
          * @example 20
          */
-        size?: any;
+        size?: number;
         /**
          * 현재 페이지 0부터 (Current Page)  현재 페이지 (default : 0)
+         * @format int32
          * @example 0
          */
-        page?: any;
+        page?: number;
         /** 정렬 (Sort Page) */
-        sort?: any;
+        sort?: string;
       },
       params: RequestParams = {}
     ) =>

@@ -10,7 +10,7 @@ export function fDate(date: InputValue, newFormat?: string) {
   return date ? format(new Date(date), fm) : '';
 }
 
-export function fDateTime(date: InputValue, newFormat?: string) {
+export function fDateTime(date: InputValue, newFormat?: string): string | undefined {
   const fm = newFormat || 'dd MMM yyyy p';
 
   return date ? format(new Date(date), fm) : '';
