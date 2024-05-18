@@ -11,8 +11,9 @@ import OutlinedInput from "@mui/material/OutlinedInput";
 import Select, {SelectChangeEvent} from "@mui/material/Select";
 import CustomPopover, {usePopover} from "src/components/custom-popover";
 import {useSnackbar} from "src/components/snackbar";
-import {BoardCategoryDTO, IBoardFilters, IBoardFilterValue} from "src/types/board";
+import {IBoardFilters, IBoardFilterValue} from "src/types/board";
 import Iconify from "src/components/iconify";
+import {CategoryEntity} from "../../generated/swagger/swagger.api";
 // ----------------------------------------------------------------------
 
 const INPUT_WIDTH = 160;
@@ -22,7 +23,7 @@ type Props = {
     filters: IBoardFilters;
     onFilters: (name: string, value: IBoardFilterValue) => void;
     dateError: boolean;
-    categoryOptions: BoardCategoryDTO[];
+    categoryOptions: CategoryEntity[];
 };
 
 export default function BoardTableToolbar({
@@ -49,7 +50,7 @@ export default function BoardTableToolbar({
         [onFilters],
     );
 
-    const getCategory = useCallback((id: number): BoardCategoryDTO | undefined => {
+    const getCategory = useCallback((id: number): CategoryEntity | undefined => {
         if (categoryOptions && categoryOptions.length > 0) {
             const matchedCategory = categoryOptions.find(category => category.id === id);
             if (!matchedCategory) {
@@ -66,7 +67,7 @@ export default function BoardTableToolbar({
 
             console.log(selectedIds, '# selectedIds');
 
-            const selectedCategories = selectedIds.map(id => getCategory(id)).filter(category => category !== undefined) as BoardCategoryDTO[];
+            const selectedCategories = selectedIds.map(id => getCategory(id)).filter(category => category !== undefined) as CategoryEntity[];
             console.log(selectedCategories, '# selectedCategories');
             onFilters(
                 "categories",

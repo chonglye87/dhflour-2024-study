@@ -11,9 +11,10 @@ import {useSnackbar} from 'src/components/snackbar';
 // routes
 // @types
 // components
-import {BoardCategoryDTO, ReqBoard} from "src/types/board";
+import {ReqBoard} from "src/types/board";
 import FormProvider, {RHFMultiCheckbox, RHFSwitch, RHFTextField} from "../../../components/hook-form";
 import RHFEditor from "../../../components/hook-form/rhf-editor";
+import {CategoryEntity} from "../../../generated/swagger/swagger.api";
 
 // ----------------------------------------------------------------------
 
@@ -21,7 +22,7 @@ type Props = {
   isEdit?: boolean;
   id?: number;
   currentData?: ReqBoard;
-  categories: BoardCategoryDTO[];
+  categories: CategoryEntity[];
   onEnd: VoidFunction;
 };
 
@@ -140,7 +141,7 @@ export default function BoardNewEditForm({isEdit, id, currentData, categories, o
               <RHFMultiCheckbox
                 name="categoryIds"
                 options={categories ? categories.map((category) => ({
-                  label: category.name,
+                  label: category.name || '-',
                   value: category.id
                 })) : []}
                 sx={{width: 1}}

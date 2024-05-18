@@ -6,12 +6,12 @@ import {Checkbox, Divider, IconButton, MenuItem, Stack, TableCell, TableRow, Typ
 import Iconify from "src/components/iconify";
 import {useSnackbar} from "src/components/snackbar";
 import CustomPopover, {usePopover} from "../../../components/custom-popover";
-import {BoardDTO} from "../../../types/board";
+import {BoardEntity} from "../../../generated/swagger/swagger.api";
 
 // ----------------------------------------------------------------------
 
 type Props = {
-  row: BoardDTO;
+  row: BoardEntity;
   selected: boolean;
   onSelectRow: VoidFunction;
   onViewRow: VoidFunction;

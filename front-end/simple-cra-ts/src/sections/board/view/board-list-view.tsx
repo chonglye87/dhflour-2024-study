@@ -28,7 +28,8 @@ import axios from "axios";
 import BoardTableFiltersResult from "../board-table-filters-result";
 import {paths} from "../../../routes/paths";
 import {applyFilter, useBoardManagerContext} from "../board-manage-provider";
-import {BoardCategoryDTO, BoardDTO} from "../../../types/board";
+
+import {BoardEntity, CategoryEntity} from "../../../generated/swagger/swagger.api";
 
 // ----------------------------------------------------------------------
 const BOARD_TYPE = "NOTICE";
@@ -71,9 +72,9 @@ export default function BoardListView({pageName}: Props) {
   //= Loading State
   const [listDataLoading, setListDataLoading] = useState<boolean>(false);
   const [detailDataLoading, setDetailDataLoading] = useState<boolean>(false);
-  const [detailData, setDetailData] = useState<BoardDTO>();
+  const [detailData, setDetailData] = useState<BoardEntity>();
   const [categoryDataLoading, setCategoryDataLoading] = useState<boolean>(false);
-  const [categories, setCategories] = useState<BoardCategoryDTO[]>([]);
+  const [categories, setCategories] = useState<CategoryEntity[]>([]);
 
   //= Popup
   const openNew = useBoolean();
@@ -81,7 +82,7 @@ export default function BoardListView({pageName}: Props) {
 
   //= DATA
   const [selectedId, setSelectedId] = useState<number | undefined>();
-  const [tableData, setTableData] = useState<BoardDTO[]>([]);
+  const [tableData, setTableData] = useState<BoardEntity[]>([]);
 
   const dateError = filters.startDate && filters.endDate ? filters.startDate.getTime() > filters.endDate.getTime() : false;
 
@@ -365,7 +366,7 @@ export default function BoardListView({pageName}: Props) {
                 />
                 <TableBody>
                   {!listDataLoading &&
-                    dataFiltered.map((item: BoardDTO, index: number) => (
+                    dataFiltered.map((item: BoardEntity, index: number) => (
                       <BoardTableRow
                         key={item.id}
                         row={item}

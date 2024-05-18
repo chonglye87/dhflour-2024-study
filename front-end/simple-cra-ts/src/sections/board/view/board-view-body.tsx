@@ -3,25 +3,23 @@ import {SxProps} from "@mui/system";
 import {Theme} from "@mui/material/styles/createTheme";
 import {Box, Card, Divider, Stack, Typography} from "@mui/material";
 import IconButton from "@mui/material/IconButton";
-import {BoardDTO} from "src/types/board";
 import {fDateTime} from "../../../utils/format-time";
 import Iconify from "../../../components/iconify";
 import {useBoolean} from "../../../hooks/use-boolean";
 import Label from "../../../components/label";
 import TableViewBodyFooter from "../../../components/hyperx/table/table-view-body-footer";
+import {BoardEntity} from "../../../generated/swagger/swagger.api";
 
 // ----------------------------------------------------------------------
 
 interface Props {
-    data: BoardDTO;
+    data: BoardEntity;
     sx?: SxProps<Theme>;
 }
 
 export default function BoardViewBody({data, sx, ...other}: Props) {
 
-
-    const {title, content} = data;
-    const {categories, createdTime, updatedTime, pageView, top, createdBy, updatedBy} = data;
+    const {id, title, content, createdAt, updatedAt, categories} = data;
 
     const properties = useBoolean(true);
 
@@ -38,7 +36,7 @@ export default function BoardViewBody({data, sx, ...other}: Props) {
                         <Stack flexGrow={1} sx={{width: 1}}>
                             {/* 날짜 */}
                             <Typography variant="caption" sx={{color: 'text.secondary', mb: 1}}>
-                                {fDateTime(createdTime)}
+                                {fDateTime(createdAt)}
                             </Typography>
 
                             {/* 카테고리 */}
@@ -54,18 +52,18 @@ export default function BoardViewBody({data, sx, ...other}: Props) {
                             </Typography>
                         </Stack>
 
-                        {top &&
-                            <Label variant="soft" color="secondary"
-                                   startIcon={<Iconify icon="majesticons:pin"/>}>
-                                상단고정
-                            </Label>
-                        }
+                        {/* {top && */}
+                        {/*    <Label variant="soft" color="secondary" */}
+                        {/*           startIcon={<Iconify icon="majesticons:pin"/>}> */}
+                        {/*        상단고정 */}
+                        {/*    </Label> */}
+                        {/* } */}
                     </Stack>
 
                     <Divider sx={{borderStyle: 'dashed'}}/>
 
                     <Stack spacing={1}>
-                        <Box sx={{mb: 1}} dangerouslySetInnerHTML={{__html: content}}/>
+                      {content && <Box sx={{mb: 1}} dangerouslySetInnerHTML={{__html: content}}/>}
                     </Stack>
                 </Stack>
             </Card>
@@ -90,17 +88,17 @@ export default function BoardViewBody({data, sx, ...other}: Props) {
                             <Box component="span" sx={{width: 100, color: 'text.secondary', mr: 2}}>
                                 페이지 뷰
                             </Box>
-                            {pageView} 회
+                            {0} 회
                         </Stack>
 
-                        <TableViewBodyFooter
-                            data={{
-                                createdTime,
-                                createdBy,
-                                updatedTime,
-                                updatedBy,
-                            }}
-                        />
+                        {/* <TableViewBodyFooter */}
+                        {/*    data={{ */}
+                        {/*        createdAt, */}
+                        {/*        0, */}
+                        {/*        updatedAt, */}
+                        {/*        updatedBy, */}
+                        {/*    }} */}
+                        {/* /> */}
                     </>
                 )}
             </Stack>

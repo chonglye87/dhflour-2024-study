@@ -9,6 +9,14 @@
  * ---------------------------------------------------------------
  */
 
+export interface CategoryRequest {
+  /**
+   * 게시물 이름
+   * @example "Spring Boot and Swagger Integration"
+   */
+  name: string;
+}
+
 export interface BoardRequest {
   /**
    * 게시물 제목
@@ -26,6 +34,58 @@ export interface BoardRequest {
    * @example [1,2,3]
    */
   categoryIds: number[];
+}
+
+/** 게시판 카테고리 엔티티 */
+export interface CategoryEntity {
+  /**
+   * id
+   * @format int64
+   * @example 1
+   */
+  id: number;
+  /** 이름 */
+  name?: string;
+  /**
+   * 생성 시간
+   * @format date-time
+   */
+  createdAt?: string;
+  /**
+   * 마지막 업데이트 시간
+   * @format date-time
+   */
+  updatedAt?: string;
+}
+
+/** 카테고리 페이지네이션 응답 */
+export interface CategoryPaginationResponse {
+  /**
+   * 현재 페이지 번호
+   * @format int32
+   * @example 0
+   */
+  page?: number;
+  /**
+   * 페이지 크기
+   * @format int32
+   * @example 20
+   */
+  size?: number;
+  /**
+   * 전체 요소 수
+   * @format int64
+   * @example 100
+   */
+  totalElements?: number;
+  /**
+   * 전체 페이지 수
+   * @format int32
+   * @example 5
+   */
+  totalPages?: number;
+  /** 페이지에 포함된 콘텐츠 */
+  content?: CategoryEntity[];
 }
 
 /** 게시판 엔티티, 게시물 정보를 포함 */
@@ -85,28 +145,6 @@ export interface BoardPaginationResponse {
   totalPages?: number;
   /** 페이지에 포함된 콘텐츠 */
   content?: BoardEntity[];
-}
-
-/** 게시판 카테고리 엔티티 */
-export interface CategoryEntity {
-  /**
-   * id
-   * @format int64
-   * @example 1
-   */
-  id: number;
-  /** 이름 */
-  name?: string;
-  /**
-   * 생성 시간
-   * @format date-time
-   */
-  createdAt?: string;
-  /**
-   * 마지막 업데이트 시간
-   * @format date-time
-   */
-  updatedAt?: string;
 }
 
 import type {
@@ -271,7 +309,64 @@ export class HttpClient<SecurityDataType = unknown> {
 export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDataType> {
   api = {
     /**
-     * @description 게시판 목록 조회 API (Pagination)
+     * @description 게시물 페이징 목록 조회합니다.
+     *
+     * @tags category-controller
+     * @name PageCategory
+     * @summary [category-1] 카테고리 목록 조회 (Pagination)
+     * @request GET:/api/v1/category
+     */
+    pageCategory: (
+      query?: {
+        /** @default "" */
+        startDate?: string;
+        /** @default "" */
+        endDate?: string;
+        /** @default "" */
+        query?: string;
+        /**
+         * Page Size 페이지 크기 (default : 20)
+         * @example 20
+         */
+        size?: any;
+        /**
+         * 현재 페이지 0부터 (Current Page)  현재 페이지 (default : 0)
+         * @example 0
+         */
+        page?: any;
+        /** 정렬 (Sort Page) */
+        sort?: any;
+      },
+      params: RequestParams = {}
+    ) =>
+      this.request<CategoryPaginationResponse, any>({
+        path: `/api/v1/category`,
+        method: 'GET',
+        query: query,
+        format: 'json',
+        ...params,
+      }),
+
+    /**
+     * @description 새로운 게시글을 등록합니다.
+     *
+     * @tags category-controller
+     * @name CreateCategory
+     * @summary [category-2] 카테고리 등록
+     * @request POST:/api/v1/category
+     */
+    createCategory: (data: CategoryRequest, params: RequestParams = {}) =>
+      this.request<CategoryRequest, any>({
+        path: `/api/v1/category`,
+        method: 'POST',
+        body: data,
+        type: ContentType.Json,
+        format: 'json',
+        ...params,
+      }),
+
+    /**
+     * @description 게시물 페이징 목록 조회합니다.
      *
      * @tags board-controller
      * @name PageBoard
@@ -354,6 +449,68 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<object, any>({
         path: `/api/v1/env`,
         method: 'GET',
+        ...params,
+      }),
+
+    /**
+     * @description 특정 게시글의 상세 정보를 조회합니다.
+     *
+     * @tags category-controller
+     * @name GetCategoryById
+     * @summary [category-3] 카테고리 상세 조회
+     * @request GET:/api/v1/category/{id}
+     */
+    getCategoryById: (id: number, params: RequestParams = {}) =>
+      this.request<CategoryEntity, any>({
+        path: `/api/v1/category/${id}`,
+        method: 'GET',
+        format: 'json',
+        ...params,
+      }),
+
+    /**
+     * @description 특정 게시글을 삭제합니다.
+     *
+     * @tags category-controller
+     * @name DeleteCategory
+     * @summary [category-4] 카테고리 삭제
+     * @request DELETE:/api/v1/category/{id}
+     */
+    deleteCategory: (id: number, params: RequestParams = {}) =>
+      this.request<object, any>({
+        path: `/api/v1/category/${id}`,
+        method: 'DELETE',
+        ...params,
+      }),
+
+    /**
+     * @description 특정 게시글의 상세 정보를 조회합니다.
+     *
+     * @tags board-controller
+     * @name GetBoardById
+     * @summary [board-3] 게시판 상세 조회
+     * @request GET:/api/v1/board/{id}
+     */
+    getBoardById: (id: number, params: RequestParams = {}) =>
+      this.request<BoardEntity, any>({
+        path: `/api/v1/board/${id}`,
+        method: 'GET',
+        format: 'json',
+        ...params,
+      }),
+
+    /**
+     * @description 특정 게시글을 삭제합니다.
+     *
+     * @tags board-controller
+     * @name DeleteBoard
+     * @summary [board-4] 게시판 삭제
+     * @request DELETE:/api/v1/board/{id}
+     */
+    deleteBoard: (id: number, params: RequestParams = {}) =>
+      this.request<object, any>({
+        path: `/api/v1/board/${id}`,
+        method: 'DELETE',
         ...params,
       }),
   };

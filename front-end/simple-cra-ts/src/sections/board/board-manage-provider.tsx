@@ -4,11 +4,12 @@ import {useSnackbar} from "notistack";
 import {fTimestamp} from "../../utils/format-time";
 import {ROW_COUNT} from "../../components/hyperx/table/use-table";
 import {initialTable, TableProps, useTable} from "../../components/hyperx/table";
-import {BoardDTO, IBoardFilters, IBoardFilterValue} from "../../types/board";
+import { IBoardFilters, IBoardFilterValue} from "../../types/board";
+import {BoardEntity} from "../../generated/swagger/swagger.api";
 
 // ----------------------------------------------------------------------
 type ApplyFilterProps = {
-  inputData: BoardDTO[];
+  inputData: BoardEntity[];
   comparator: (a: any, b: any) => number;
   filters: IBoardFilters;
   dateError: boolean;
@@ -213,8 +214,8 @@ export const applyFilter = ({
     if (startDate && endDate) {
       inputData = inputData.filter(
         (data) =>
-          fTimestamp(data.createdTime) >= fTimestamp(startDate) &&
-          fTimestamp(data.createdTime) <= fTimestamp(endDate),
+          fTimestamp(data.createdAt) >= fTimestamp(startDate) &&
+          fTimestamp(data.createdAt) <= fTimestamp(endDate),
       );
     }
   }
