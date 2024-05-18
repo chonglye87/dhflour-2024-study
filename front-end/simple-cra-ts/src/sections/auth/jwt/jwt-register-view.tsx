@@ -132,11 +132,9 @@ export default function JwtRegisterView() {
    * 이용약관 체크박스 선택
    * @param setState
    */
-  const handleCheckboxChange =
-    (setState: React.Dispatch<React.SetStateAction<boolean>>) => () => {
-      setState((prevState: boolean) => !prevState);
+  const handleCheckboxChange = (setState: React.Dispatch<React.SetStateAction<boolean>>) => {
+      setState(prevState => !prevState);
     };
-
   /**
    * 마케팅 체크박스 선택
    */
@@ -247,7 +245,7 @@ export default function JwtRegisterView() {
               control={
                 <Checkbox
                   checked={taService}
-                  onChange={handleCheckboxChange(setTaService)}
+                  onChange={() => handleCheckboxChange(setTaService)}
                 />
               }
               label="(필수) 서비스 이용약관에 동의합니다."
@@ -255,7 +253,6 @@ export default function JwtRegisterView() {
             <Iconify
               icon="carbon:chevron-right"
               sx={{ cursor: 'pointer' }}
-              // onClick={() => handleViewTerm('terms')}
             />
           </Box>
 
@@ -270,7 +267,7 @@ export default function JwtRegisterView() {
               control={
                 <Checkbox
                   checked={taPrivacy}
-                  onChange={handleCheckboxChange(setTaPrivacy)}
+                  onChange={() => handleCheckboxChange(setTaPrivacy)}
                 />
               }
               label="(필수) 개인정보 처리방침에 동의합니다."
@@ -278,7 +275,6 @@ export default function JwtRegisterView() {
             <Iconify
               icon="carbon:chevron-right"
               sx={{ cursor: 'pointer' }}
-              // onClick={() => handleViewTerm('privacy')}
             />
           </Box>
           <FormControlLabel
@@ -295,7 +291,7 @@ export default function JwtRegisterView() {
               control={
                 <Checkbox
                   checked={emailRcv}
-                  onChange={handleCheckboxChange(setEmailRcv)}
+                  onChange={() => handleCheckboxChange(setEmailRcv)}
                 />
               }
               label="(선택) 이메일 수신 동의"
@@ -304,7 +300,7 @@ export default function JwtRegisterView() {
               control={
                 <Checkbox
                   checked={smsRcv}
-                  onChange={handleCheckboxChange(setSmsRcv)}
+                  onChange={() => handleCheckboxChange(setSmsRcv)}
                 />
               }
               label="(선택) SMS 수신 동의"
@@ -313,7 +309,7 @@ export default function JwtRegisterView() {
               control={
                 <Checkbox
                   checked={snsRcv}
-                  onChange={handleCheckboxChange(setSnsRcv)}
+                  onChange={() => handleCheckboxChange(setSnsRcv)}
                 />
               }
               label="(선택) SNS 수신 동의"
