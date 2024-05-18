@@ -32,6 +32,8 @@ export default function JwtRegisterView() {
 
   const router = useRouter();
 
+  const [errorMsg, setErrorMsg] = useState('');
+
   const searchParams = useSearchParams();
 
   const returnTo = searchParams.get('returnTo');
@@ -102,10 +104,10 @@ export default function JwtRegisterView() {
     if (!emailRcv && !smsRcv && !snsRcv) {
       setTaMarketing(false);
     } else {
-      // 조건 3: emailRcv, smsRcv, snsRcv 중 하나라도 true이면 taMarketing true
+      // 조건 2: emailRcv, smsRcv, snsRcv 중 하나라도 true이면 taMarketing true
       setTaMarketing(true);
     }
-    // 조건 4: 전부 true이면 전체 동의 true
+    // 조건 3: 전부 true이면 전체 동의 true
     const allChecked = remainingCheckboxes.every((checkbox) => checkbox);
     setAllAgree(allChecked);
   }, [taService, taPrivacy, taMarketing, emailRcv, smsRcv, snsRcv]);
@@ -177,6 +179,7 @@ export default function JwtRegisterView() {
   const renderForm = (
     <FormProvider methods={methods} onSubmit={onSubmit}>
       <Stack spacing={2.5}>
+        {!!errorMsg && <Alert severity="error">{errorMsg}</Alert>}
         <RHFTextField
           name="email"
           label={<Typography>이메일<Typography component='span' sx={{ color: "error.main" }}>*</Typography></Typography>}
