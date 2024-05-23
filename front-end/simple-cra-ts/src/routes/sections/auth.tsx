@@ -28,7 +28,7 @@ const authJwt = {
     {
       path: 'login',
       element: (
-        <AuthClassicLayout title='안녕하세요! 시작해볼까요?'>
+        <AuthClassicLayout>
           <JwtLoginPage />
         </AuthClassicLayout>
       ),
@@ -36,7 +36,7 @@ const authJwt = {
     {
       path: 'register',
       element: (
-        <AuthClassicLayout title="안녕하세요! 시작해볼까요?">
+        <AuthClassicLayout title="Manage the job more effectively with Minimal">
           <JwtRegisterPage />
         </AuthClassicLayout>
       ),
