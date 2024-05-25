@@ -30,13 +30,15 @@ import {paths} from "../../../routes/paths";
 import {applyFilter, useBoardManagerContext} from "../board-manage-provider";
 
 import {BoardEntity, CategoryEntity} from "../../../generated/swagger/swagger.api";
+import {Swagger} from "../../../utils/API";
+import {fDateTime} from "../../../utils/format-time";
 
 // ----------------------------------------------------------------------
 const BOARD_TYPE = "NOTICE";
 
 
 const TABLE_HEAD = [
-  {id: "id", label: "ID", align: "left"},
+  {id: "id", label: "ID", align: "left", width: 80},
   {id: "title", label: "제목", align: "left", width: 220},
   {id: "categories.name", label: "카테고리", align: "center"},
   {id: "top", label: "상단고정", align: "center"},
@@ -97,35 +99,34 @@ export default function BoardListView({pageName}: Props) {
   const notFound = (!dataFiltered.length && canReset) || !dataFiltered.length;
 
   const loadData = async () => {
-    setListDataLoading(true);
-    setTableData([]);
+    // setListDataLoading(true);
+    // setTableData([]);
     let _query = '';
     if (filters.query && filters.query.length > 1) {
       _query = filters.query;
     }
-    // const {data} = await Swagger.api.boardPage({
-    //     type: BOARD_TYPE,
-    //     size: table.rowsPerPage,
-    //     page: table.page + 1,
-    //     query: _query,
-    //     startTime: fISO(filters.startDate),
-    //     endTime: fISO(filters.endDate),
-    //     categoryIds: filters.categories !== undefined ? filters.categories.map((category) => category.id).filter((id) => id !== undefined) : [],
-    //     orderBy:
-    //         table.orderBy &&
-    //         transformSortJSON(
-    //             JSON.stringify({
-    //                 [table.orderBy]: table.order,
-    //             }),
-    //         ),
-    // });
-    console.log(table.rowsPerPage, 'table.rowsPerPage');
-    console.log(table.page + 1, 'table.page + 1');
-    const {data} = await axios.get('/mock/board-ex.json');
-    console.log(data, 'board');
-    setTableData(data.items);
-    table.setPageMetadata(data.metadata);
-    setListDataLoading(false);
+    try {
+      const {data} = await Swagger.api.pageBoard({
+        query: _query,
+        startDate: fDateTime(filters.startDate),
+        endDate: fDateTime(filters.endDate),
+        size: table.rowsPerPage,
+        page: table.page,
+        sort: 'createdAt,desc'
+      })
+      setTableData(data?.content || []);
+      table.setPageMetadata({
+        itemCount: data.size || 0,
+        total: data.totalElements || 0,
+        size: data.size || 0,
+        currentPage: (data.page || 0) + 1,
+        totalPages: data.totalPages || 0
+      });
+    } catch (e) {
+      console.error(e, 'pageBoard:error');
+    } finally {
+      setListDataLoading(false);
+    }
   };
 
   const loadCategoryData = async () => {

@@ -3,10 +3,12 @@ import {Checkbox, Divider, IconButton, MenuItem, Stack, TableCell, TableRow, Typ
 // utils
 // @types
 // components
+import Chip from "@mui/material/Chip";
 import Iconify from "src/components/iconify";
 import {useSnackbar} from "src/components/snackbar";
 import CustomPopover, {usePopover} from "../../../components/custom-popover";
 import {BoardEntity} from "../../../generated/swagger/swagger.api";
+import {fDateTime} from "../../../utils/format-time";
 
 // ----------------------------------------------------------------------
 
@@ -30,6 +32,8 @@ export default function BoardTableRow({
   const {enqueueSnackbar} = useSnackbar();
   const openPopover = usePopover();
 
+  const {id, title, createdAt, categories} = row;
+
   return (
     <>
       <TableRow hover selected={selected}>
@@ -38,7 +42,7 @@ export default function BoardTableRow({
         </TableCell>
 
 
-        <TableCell>아이디</TableCell>
+        <TableCell>{id}</TableCell>
 
         <TableCell>
           <Typography
@@ -48,24 +52,30 @@ export default function BoardTableRow({
               onViewRow();
             }}
           >
-            제목
+            {title}
           </Typography>
         </TableCell>
 
         <TableCell align="center">
 
-          <Stack direction="row" spacing={1}>
-            카테고리
-          </Stack>
+          {categories && <Stack direction="row" spacing={1}>
+            {
+              categories.map((category) =>
+              <Chip variant="soft"
+                    color="secondary"
+                    size="small"
+                    label={category.name || '-'} />)
+            }
+          </Stack>}
         </TableCell>
 
         <TableCell align="center">
-          상단고정 라벨
+          -
         </TableCell>
 
         <TableCell align="center">페이지뷰</TableCell>
 
-        <TableCell align="center">날짜 포맷</TableCell>
+        <TableCell align="center">{createdAt ? fDateTime(createdAt) : '-'}</TableCell>
 
         <TableCell align="right">
           <IconButton>
