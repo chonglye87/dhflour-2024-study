@@ -64,6 +64,74 @@ export default function JwtRegisterView() {
     formState: { isSubmitting },
   } = methods;
 
+<<<<<<< HEAD
+=======
+  // 이용약관 체크박스
+  const [allAgree, setAllAgree] = useState(true);
+  const [taService, setTaService] = useState(true);
+  const [taPrivacy, setTaPrivacy] = useState(true);
+  const [taMarketing, setTaMarketing] = useState(true);
+  const [emailRcv, setEmailRcv] = useState(true);
+  const [smsRcv, setSmsRcv] = useState(true);
+  const [snsRcv, setSnsRcv] = useState(true);
+
+  useEffect(() => {
+    const remainingCheckboxes = [
+      taService,
+      taPrivacy,
+      taMarketing,
+      emailRcv,
+      smsRcv,
+      snsRcv,
+    ];
+    // 조건 1: emailRcv, smsRcv, snsRcv 모두 false면 taMarketing false
+    if (!emailRcv && !smsRcv && !snsRcv) {
+      setTaMarketing(false);
+    } else {
+      // 조건 2: emailRcv, smsRcv, snsRcv 중 하나라도 true이면 taMarketing true
+      setTaMarketing(true);
+    }
+    // 조건 3: 전부 true이면 전체 동의 true
+    const allChecked = remainingCheckboxes.every((checkbox) => checkbox);
+    setAllAgree(allChecked);
+  }, [taService, taPrivacy, taMarketing, emailRcv, smsRcv, snsRcv]);
+
+
+
+  /**
+   * 이용약관 전체 동의
+   */
+  const handleAllAgreeChange = () => {
+    const checked = !allAgree;
+    setAllAgree(checked);
+    setTaService(checked);
+    setTaPrivacy(checked);
+    setTaMarketing(checked);
+    setEmailRcv(checked);
+    setSmsRcv(checked);
+    setSnsRcv(checked);
+  };
+
+  /**
+   * 이용약관 체크박스 선택
+   * @param setState
+   */
+  const handleCheckboxChange = (setState: React.Dispatch<React.SetStateAction<boolean>>) => {
+      setState(prevState => !prevState);
+    };
+  /**
+   * 마케팅 체크박스 선택
+   */
+  const handleMarketingCheckboxChange = () => {
+    const isChecked = !taMarketing;
+    setTaMarketing(isChecked);
+    setEmailRcv(isChecked);
+    setSmsRcv(isChecked);
+    setSnsRcv(isChecked);
+  };
+
+
+>>>>>>> 9153c2dd8ddf7651cdfaecb947f8f99c2e3c170b
   const onSubmit = handleSubmit(async (data) => {
     try {
       await register?.(data.email, data.password, data.firstName, data.lastName);
@@ -116,6 +184,7 @@ export default function JwtRegisterView() {
     <FormProvider methods={methods} onSubmit={onSubmit}>
       <Stack spacing={2.5}>
         {!!errorMsg && <Alert severity="error">{errorMsg}</Alert>}
+<<<<<<< HEAD
 
         <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
           <RHFTextField name="firstName" label="First name" />
@@ -123,6 +192,12 @@ export default function JwtRegisterView() {
         </Stack>
 
         <RHFTextField name="email" label="Email address" />
+=======
+        <RHFTextField
+          name="email"
+          label={<Typography>이메일<Typography component='span' sx={{ color: "error.main" }}>*</Typography></Typography>}
+        />
+>>>>>>> 9153c2dd8ddf7651cdfaecb947f8f99c2e3c170b
 
         <RHFTextField
           name="password"
@@ -139,6 +214,112 @@ export default function JwtRegisterView() {
           }}
         />
 
+<<<<<<< HEAD
+=======
+        <RHFTextField
+          name="fullName"
+          label={<Typography>이름<Typography component='span' sx={{ color: "error.main" }}>*</Typography></Typography>}
+        />
+        <RHFTextField
+          name="mobile"
+          label={<Typography>휴대폰번호<Typography component='span' sx={{ color: "error.main" }}>*</Typography></Typography>}
+        />
+
+        {/* 이용약관 */}
+        <FormGroup sx={{ textAlign: 'left' }}>
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={allAgree}
+                onChange={handleAllAgreeChange}
+              />
+            }
+            label="모두 동의합니다."
+          />
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+            }}
+          >
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={taService}
+                  onChange={() => handleCheckboxChange(setTaService)}
+                />
+              }
+              label="(필수) 서비스 이용약관에 동의합니다."
+            />
+            <Iconify
+              icon="carbon:chevron-right"
+              sx={{ cursor: 'pointer' }}
+            />
+          </Box>
+
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+            }}
+          >
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={taPrivacy}
+                  onChange={() => handleCheckboxChange(setTaPrivacy)}
+                />
+              }
+              label="(필수) 개인정보 처리방침에 동의합니다."
+            />
+            <Iconify
+              icon="carbon:chevron-right"
+              sx={{ cursor: 'pointer' }}
+            />
+          </Box>
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={taMarketing}
+                onChange={handleMarketingCheckboxChange}
+              />
+            }
+            label="(선택) 마케팅 정보 수신에 동의합니다."
+          />
+          <Stack sx={{ pl: 2.5 }}>
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={emailRcv}
+                  onChange={() => handleCheckboxChange(setEmailRcv)}
+                />
+              }
+              label="(선택) 이메일 수신 동의"
+            />
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={smsRcv}
+                  onChange={() => handleCheckboxChange(setSmsRcv)}
+                />
+              }
+              label="(선택) SMS 수신 동의"
+            />
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={snsRcv}
+                  onChange={() => handleCheckboxChange(setSnsRcv)}
+                />
+              }
+              label="(선택) SNS 수신 동의"
+            />
+          </Stack>
+        </FormGroup>
+
+>>>>>>> 9153c2dd8ddf7651cdfaecb947f8f99c2e3c170b
         <LoadingButton
           fullWidth
           color="inherit"

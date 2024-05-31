@@ -3,3 +3,6 @@ dhflour-status-2024.iml
 front-end/mui/Minimal_TypeScript_v5.3.0
 *.class
 front-end/simple-cra-ts/.yarn
+
+*.iml
+dhflour-2024-study.iml
