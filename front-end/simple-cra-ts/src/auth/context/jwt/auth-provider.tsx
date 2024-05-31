@@ -1,10 +1,11 @@
-import { useEffect, useReducer, useCallback, useMemo } from 'react';
+import React, { useEffect, useReducer, useCallback, useMemo } from 'react';
 // utils
 import axios, { endpoints } from 'src/utils/axios';
 //
 import { AuthContext } from './auth-context';
-import { isValidToken, setSession } from './utils';
 import { ActionMapType, AuthStateType, AuthUserType } from '../../types';
+import {Swagger} from "../../../utils/API";
+import { removeAccessToken, setAccessToken, getAccessToken } from 'src/utils/auth';
 
 // ----------------------------------------------------------------------
 
@@ -73,7 +74,6 @@ const reducer = (state: AuthStateType, action: ActionsType) => {
 
 // ----------------------------------------------------------------------
 
-const STORAGE_KEY = 'accessToken';
 
 type Props = {
   children: React.ReactNode;
@@ -82,17 +82,21 @@ type Props = {
 export function AuthProvider({ children }: Props) {
   const [state, dispatch] = useReducer(reducer, initialState);
 
+  // 초기값
   const initialize = useCallback(async () => {
+    console.log('initialize 실행');
     try {
-      const accessToken = sessionStorage.getItem(STORAGE_KEY);
+      // 토큰 값 가져오기
+      const accessToken = getAccessToken();
 
-      if (accessToken && isValidToken(accessToken)) {
-        setSession(accessToken);
+      if (accessToken) {
+        // 토큰 담기
+        setAccessToken(accessToken);
 
-        const response = await axios.get(endpoints.auth.me);
-
-        const { user } = response.data;
-
+        // 유저 정보 불러오기
+        const responseMe = await axios.get(endpoints.auth.me);
+        // const responseMe = await Swagger.api.userMe();
+        const user = responseMe.data;
         dispatch({
           type: Types.INITIAL,
           payload: {
@@ -129,24 +133,28 @@ export function AuthProvider({ children }: Props) {
         email,
         password,
       };
-
       const response = await axios.post(endpoints.auth.login, data);
+      // const response = await Swagger.api.userLogin({
+      //   email,
+      //   password
+      // })
       try {
         // 토큰 담기
-        const {accessToken, refreshToken} = response.data;
-        setSession(accessToken);
+        const {access_token} = response.data;
+        setAccessToken(access_token);
 
         // 유저 정보 불러오기
         // const responseMe = await Swagger.api.userMe();
-        // const user = responseMe.data;
-        // console.log(user, "user");
+        const responseMe = await axios.get(endpoints.auth.me);
+        const user = responseMe.data;
+        console.log(user, "user");
 
-        // dispatch({
-        //   type: Types.LOGIN,
-        //   payload: {
-        //     user,
-        //   },
-        // });
+        dispatch({
+          type: Types.LOGIN,
+          payload: {
+            user,
+          },
+        });
       } catch (e) {
         console.error(e, 'LOGIN 1');
       }
@@ -154,41 +162,47 @@ export function AuthProvider({ children }: Props) {
       console.error(e, 'LOGIN 2');
     }
   }, []);
-  // const login = useCallback(async (email: string, password: string) => {
-  //   const data = {
-  //     email,
-  //     password,
-  //   };
-  //
-  //   const response = await axios.post(endpoints.auth.login, data);
-  //
-  //   const { accessToken, user } = response.data;
-  //
-  //   setSession(accessToken);
-  //
-  //   dispatch({
-  //     type: Types.LOGIN,
-  //     payload: {
-  //       user,
-  //     },
-  //   });
-  // }, []);
+
+  /**
+   * 유저 정보 불러오기
+   */
+  const userInfo = useCallback(async () => {
+    console.log('유저 정보 불러오기');
+    // const responseMe = await Swagger.api.userMe();
+    const responseMe = await axios.get(endpoints.auth.me);
+    const user = responseMe.data;
+    dispatch({
+      type: Types.LOGIN,
+      payload: {
+        user,
+      },
+    });
+  }, []);
 
   // REGISTER
   const register = useCallback(
     async (email: string, password: string, firstName: string, lastName: string) => {
+  // const register = useCallback(async (userJoin) => {
+    try {
       const data = {
         email,
         password,
         firstName,
         lastName,
       };
-
       const response = await axios.post(endpoints.auth.register, data);
+      // const response = await Swagger.api.userJoin({
+      //   email: userJoin.email,
+      //   password: userJoin.password,
+      //   fullName: userJoin.fullName,
+      //   mobile: userJoin.mobile,
+      //   termsAgree: userJoin.termsAgree,
+      // });
 
-      const { accessToken, user } = response.data;
-
-      sessionStorage.setItem(STORAGE_KEY, accessToken);
+      const { access_token, user } = response.data;
+      console.log('response.data', response.data);
+      // 토큰 담기
+      setAccessToken(access_token);
 
       dispatch({
         type: Types.REGISTER,
@@ -196,13 +210,15 @@ export function AuthProvider({ children }: Props) {
           user,
         },
       });
-    },
-    []
-  );
+    } catch (e) {
+      console.error(e, 'REGISTER ERROR');
+    }
+  }, []);
 
   // LOGOUT
   const logout = useCallback(async () => {
-    setSession(null);
+    // 토큰 삭제
+    removeAccessToken();
     dispatch({
       type: Types.LOGOUT,
     });
