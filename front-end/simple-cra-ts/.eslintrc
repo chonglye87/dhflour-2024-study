@@ -33,7 +33,7 @@
     }
   },
   "rules": {
-    "import/order": "off",
+    "import/order": 0,
     "no-alert": 0,
     "camelcase": 0,
     "no-console": 0,

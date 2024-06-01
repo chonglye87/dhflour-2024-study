@@ -3,14 +3,11 @@ import Cookies from 'js-cookie';
 import {Axios} from "./API";
 // ----------------------------------------------------------------------
 
-// get token
+// 토큰 가져오기
 export function getAccessToken() {
   return Cookies.get(process.env.REACT_APP_ACCESS_TOKEN_NAME as string);
 }
 
-export function getRefreshToken() {
-  return Cookies.get(process.env.REACT_APP_REFRESH_TOKEN_NAME as string);
-}
 
 // 토큰 설정
 export function setAccessToken(accessToken: string | null) {
@@ -26,6 +23,20 @@ export function setAccessToken(accessToken: string | null) {
     delete Axios.defaults.headers.common.Authorization;
   }
 }
+
+
+// 토큰 제거
+export function removeAccessToken() {
+  Cookies.remove(process.env.REACT_APP_ACCESS_TOKEN_NAME as string, {
+    path: '/',
+  });
+}
+
+
+export function getRefreshToken() {
+  return Cookies.get(process.env.REACT_APP_REFRESH_TOKEN_NAME as string);
+}
+
 
 export function setRefreshToken(refreshToken: string | null) {
   if (refreshToken) {
@@ -43,13 +54,6 @@ export function setRefreshToken(refreshToken: string | null) {
   } else {
     removeRefreshToken();
   }
-}
-
-// 토큰 제거
-export function removeAccessToken() {
-  Cookies.remove(process.env.REACT_APP_ACCESS_TOKEN_NAME as string, {
-    path: '/',
-  });
 }
 
 export function removeRefreshToken() {
